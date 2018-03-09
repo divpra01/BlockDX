@@ -1536,6 +1536,7 @@ bool Session::Impl::processTransactionCreate(XBridgePacketPtr packet)
     }
 
     double outAmount = static_cast<double>(xtx->fromAmount) / TransactionDescr::COIN;
+    double dust = static_cast<double>(TransactionDescr::DUST) / TransactionDescr::COIN;
 
     double fee1      = 0;
     double fee2      = connFrom->minTxFee2(1, 1);
@@ -1551,7 +1552,9 @@ bool Session::Impl::processTransactionCreate(XBridgePacketPtr packet)
         LOG() << "USED FOR TX <" << entry.txId << "> amount " << entry.amount << " " << entry.vout << " fee " << fee1;
 
         // check amount
-        if (inAmount >= outAmount+fee1+fee2)
+        double outAmountTotal = outAmount + fee1 + fee2;
+
+        if (inAmount >= outAmountTotal && inAmount - outAmountTotal > dust)
         {
             break;
         }
@@ -1561,7 +1564,9 @@ bool Session::Impl::processTransactionCreate(XBridgePacketPtr packet)
     LOG() << "inAmount " << inAmount << " outAmount " << outAmount + fee1 + fee2;
 
     // check amount
-    if (inAmount < outAmount+fee1+fee2)
+    double outAmountTotal = outAmount + fee1 + fee2;
+
+    if (inAmount < outAmountTotal || inAmount - outAmountTotal < dust)
     {
         // no money, cancel transaction
         LOG() << "no money, transaction canceled " << __FUNCTION__;

@@ -848,13 +848,20 @@ xbridge::Error App::sendXBridgeTransaction(const std::string & from,
 
         LOG() << "USED FOR TX <" << entry.txId << "> amount " << entry.amount << " " << entry.vout << " fee " << fee1;
 
-        if ((utxoAmount * TransactionDescr::COIN) > fromAmount + ((fee1 + fee2) * TransactionDescr::COIN))
+        uint64_t utxoAmountValue = utxoAmount * TransactionDescr::COIN;
+        uint64_t neededAmountValue = fromAmount + ((fee1 + fee2) * TransactionDescr::COIN);
+
+        if (utxoAmountValue > neededAmountValue &&
+            utxoAmountValue - neededAmountValue > TransactionDescr::DUST);
         {
             break;
         }
     }
 
-    if ((utxoAmount * TransactionDescr::COIN) < fromAmount + ((fee1 + fee2) * TransactionDescr::COIN))
+    uint64_t utxoAmountValue = utxoAmount * TransactionDescr::COIN;
+    uint64_t neededAmountValue = fromAmount + ((fee1 + fee2) * TransactionDescr::COIN);
+
+    if (utxoAmountValue < neededAmountValue || utxoAmountValue - neededAmountValue < TransactionDescr::DUST)
     {
         WARN() << "insufficient funds for <" << fromCurrency << "> " << __FUNCTION__;
         return xbridge::Error::INSIFFICIENT_FUNDS;
