@@ -3,6 +3,8 @@
 
 // #include "uint256.h"
 #include "base58.h"
+#include "util/xutil.h"
+#include "xbridgedef.h"
 #include "xbridgepacket.h"
 #include "xbridgewalletconnector.h"
 
@@ -140,6 +142,8 @@ struct TransactionDescr
 
         return *this;
     }
+
+    friend std::ostream & operator << (std::ostream & out, const TransactionDescrPtr & tx);
 
     TransactionDescr(const TransactionDescr & d)
     {

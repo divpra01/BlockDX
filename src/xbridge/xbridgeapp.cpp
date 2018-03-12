@@ -774,7 +774,6 @@ void App::moveTransactionToHistory(const uint256 & id)
             if(counter > 1) {
                 ERR() << "duplicate transaction id = " << id.GetHex() << " " << __FUNCTION__;
             }
-//            assert(counter < 2 && "duplicate transaction");
         }
 
         if (xtx)
@@ -783,7 +782,6 @@ void App::moveTransactionToHistory(const uint256 & id)
                 ERR() << "duplicate tx " << id.GetHex() << " in tx list and history " << __FUNCTION__;
                 return;
             }
-//            assert(m_p->m_historicTransactions.count(id) == 0 && "duplicate tx in tx list and history");
             m_p->m_historicTransactions[id] = xtx;
         }
     }
@@ -813,7 +811,6 @@ xbridge::Error App::sendXBridgeTransaction(const std::string & from,
                                            uint256 & id,
                                            uint256 & blockHash)
 {
-//    LOG() <<
     const auto statusCode = checkCreateParams(fromCurrency, toCurrency, fromAmount);
     if(statusCode != xbridge::SUCCESS)
     {
@@ -861,7 +858,7 @@ xbridge::Error App::sendXBridgeTransaction(const std::string & from,
 
         fee1 = connFrom->minTxFee1(outputsForUse.size(), 3) * TransactionDescr::COIN;
 
-        LOG() << "USED FOR TX <" << entry.txId << "> amount " << entry.amount << " " << entry.vout << " fee " << fee1;
+        LOG() << "using utxo item, id: <" << entry.txId << "> amount: " << entry.amount << " vout: " << entry.vout;
 
         uint64_t fullAmount = fromAmount + fee1 + fee2;
         if (utxoAmount > fullAmount)
@@ -876,6 +873,10 @@ xbridge::Error App::sendXBridgeTransaction(const std::string & from,
             break;
         }
     }
+
+    LOG() << "fee1: " << fee1;
+    LOG() << "fee2: " << fee2;
+    LOG() << "amount of used utxo items: " << utxoAmount << " required amount + fees: " << (fromAmount / TransactionDescr::COIN) + fee1 + fee2;
 
     if (utxoAmount < (fromAmount + fee1 + fee2))
     {
@@ -980,7 +981,7 @@ xbridge::Error App::sendXBridgeTransaction(const std::string & from,
         m_p->m_transactions[id] = ptr;
     }
 
-    LOG() << "created order with id " << id.GetHex();
+    LOG() << "order created" << ptr << __FUNCTION__;
 
     return xbridge::Error::SUCCESS;
 }
@@ -1199,6 +1200,8 @@ Error App::acceptXBridgeTransaction(const uint256     & id,
     // lock used coins
     connTo->lockCoins(ptr->usedCoins, true);
 
+    LOG() << "order accepted" << ptr << __FUNCTION__;
+
     return xbridge::Error::SUCCESS;
 }
 
@@ -1259,11 +1262,13 @@ xbridge::Error App::cancelXBridgeTransaction(const uint256 &id,
     TransactionDescrPtr ptr = transaction(id);
     if (!ptr || !ptr->isLocal())
     {
+        LOG() << "order with id: " << id.GetHex() << " not found or order isn't local " << __FUNCTION__;
         return xbridge::TRANSACTION_NOT_FOUND;
     }
 
     if (ptr->state > TransactionDescr::trCreated)
     {
+        LOG() << "order with id: " << id.GetHex() << " already in work " << __FUNCTION__;
         return xbridge::INVALID_STATE;
     }
 
@@ -1288,6 +1293,8 @@ xbridge::Error App::cancelXBridgeTransaction(const uint256 &id,
 
         moveTransactionToHistory(id);
     }
+
+    LOG() << "order cancelled" << ptr << __FUNCTION__;
 
     return xbridge::SUCCESS;
 }
