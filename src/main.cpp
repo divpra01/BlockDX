@@ -5565,7 +5565,9 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         std::vector<unsigned char> raw;
         vRecv >> raw;
 
+        LogPrintf("xbridge 1\n");
         uint256 hash = Hash(raw.begin(), raw.end());
+        LogPrintf("xbridge 2\n");
         if (!pfrom->setKnown.count(hash))
         {
             pfrom->setKnown.insert(hash);
@@ -5581,6 +5583,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
                     }
                 }
             }
+            LogPrintf("xbridge 3\n");
 
             static bool isEnabled = xbridge::App::isEnabled();
             if (isEnabled)
@@ -5592,6 +5595,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
                 }
                 else
                 {
+                    LogPrintf("xbridge 4\n");
                     CValidationState state;
 
                     static std::vector<unsigned char> zero(20, 0);
@@ -5605,11 +5609,15 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
 
                     if (addr != zero)
                     {
+                        LogPrintf("xbridge 5\n");
                         app.onMessageReceived(addr, raw, state);
+                        LogPrintf("xbridge 6\n");
                     }
                     else
                     {
+                        LogPrintf("xbridge 7\n");
                         app.onBroadcastReceived(raw, state);
+                        LogPrintf("xbridge 8\n");
                     }
 
                     int dos = 0;

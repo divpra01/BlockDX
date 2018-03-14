@@ -478,6 +478,7 @@ void App::onMessageReceived(const std::vector<unsigned char> & id,
         return;
     }
 
+    LogPrintf("xbridge 10\n");
     XBridgePacketPtr packet(new XBridgePacket);
     if (!packet->copyFrom(message))
     {
@@ -498,11 +499,14 @@ void App::onMessageReceived(const std::vector<unsigned char> & id,
     SessionPtr ptr = m_p->getSession(id);
     if (ptr)
     {
+        LogPrintf("xbridge 11\n");
         ptr->processPacket(packet);
+        LogPrintf("xbridge 12\n");
     }
 
     else
     {
+        LogPrintf("xbridge 13\n");
         {
             // if no session address - find connector address
             boost::mutex::scoped_lock l(m_p->m_connectorsLock);
@@ -511,11 +515,13 @@ void App::onMessageReceived(const std::vector<unsigned char> & id,
                 ptr = m_p->getSession();
             }
         }
+        LogPrintf("xbridge 14\n");
 
         if (ptr)
         {
             ptr->processPacket(packet);
         }
+        LogPrintf("xbridge 15\n");
     }
 }
 
