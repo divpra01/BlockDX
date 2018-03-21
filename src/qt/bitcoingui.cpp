@@ -17,6 +17,7 @@
 #include "openuridialog.h"
 #include "optionsdialog.h"
 #include "optionsmodel.h"
+#include "proposalvotedialog.h"
 #include "rpcconsole.h"
 #include "utilitydialog.h"
 #include "servicenode-sync.h"
@@ -446,6 +447,9 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     openBlockExplorerAction = new QAction(QIcon(":/icons/explorer"), tr("&Blockchain explorer"), this);
     openBlockExplorerAction->setStatusTip(tr("Block explorer window"));
 
+    openProposalVotingAction = new QAction(QIcon(":/icons/options"), tr("&Proposal Voting"), this);
+    openProposalVotingAction->setStatusTip(tr("Open the Proposal Voting window"));
+
     showHelpMessageAction = new QAction(QApplication::style()->standardIcon(QStyle::SP_MessageBoxInformation), tr("&Command-line options"), this);
     showHelpMessageAction->setMenuRole(QAction::NoRole);
     showHelpMessageAction->setStatusTip(tr("Show the BlocknetDX Core help message to get a list with possible BlocknetDX command-line options"));
@@ -456,6 +460,7 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     connect(optionsAction, SIGNAL(triggered()), this, SLOT(optionsClicked()));
     connect(toggleHideAction, SIGNAL(triggered()), this, SLOT(toggleHidden()));
     connect(showHelpMessageAction, SIGNAL(triggered()), this, SLOT(showHelpMessageClicked()));
+    connect(openProposalVotingAction, SIGNAL(triggered()), this, SLOT(proposalVoteClicked()));
 #ifdef ENABLE_WALLET
     if (walletFrame) {
         connect(encryptWalletAction, SIGNAL(triggered(bool)), walletFrame, SLOT(encryptWallet(bool)));
@@ -522,6 +527,7 @@ void BitcoinGUI::createMenuBar()
         tools->addAction(openMNConfEditorAction);
         tools->addAction(showBackupsAction);
         tools->addAction(openBlockExplorerAction);
+        tools->addAction(openProposalVotingAction);
     }
 
     QMenu* help = appMenuBar->addMenu(tr("&Help"));
@@ -731,6 +737,17 @@ void BitcoinGUI::optionsClicked()
     dlg.setModel(clientModel->getOptionsModel());
     dlg.exec();
 }
+
+void BitcoinGUI::proposalVoteClicked()
+{
+    // if (!clientModel || !clientModel->getOptionsModel())
+    //     return;
+
+    ProposalVoteDialog dlg(this, enableWallet);
+    //dlg.setModel(clientModel->getOptionsModel());
+    dlg.exec();
+}
+
 
 void BitcoinGUI::aboutClicked()
 {
