@@ -1461,7 +1461,7 @@ void App::selectUtxos(const std::string &addr, const std::vector<wallet::UtxoEnt
 
     // Fill up with available inputs from other addresses
     uint64_t fullAmount = fromAmount + fee1 + fee2;
-    if (utxoAmount > fullAmount) {
+    if (utxoAmount < fullAmount) {
         std::vector<wallet::UtxoEntry> uo;
         processUtxos(addr, unusedOutputs, uo, connFrom, fromAmount);
     }
