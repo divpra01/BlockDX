@@ -1423,11 +1423,11 @@ void App::selectUtxos(const std::string &addr, const std::vector<wallet::UtxoEnt
                                                                     const std::vector<wallet::UtxoEntry> &outputs,
                                                                     std::vector<wallet::UtxoEntry> &unusedOutputs,
                                                                     const WalletConnectorPtr &connFrom,
-                                                                    const uint64_t &fromAmount)
+                                                                    const uint64_t &fromAmount, bool fillInputs)
     {
         for (const wallet::UtxoEntry & entry : outputs)
         {
-            if (entry.address != addr) { // filter utxo's by user specified from address
+            if (fillInputs && entry.address != addr) { // filter utxo's by user specified from address
                 unusedOutputs.push_back(entry);
                 continue;
             }
@@ -1454,7 +1454,7 @@ void App::selectUtxos(const std::string &addr, const std::vector<wallet::UtxoEnt
         }
     };
     std::vector<wallet::UtxoEntry> unusedOutputs;
-    processUtxos(addr, outputs, unusedOutputs, connFrom, fromAmount);
+    processUtxos(addr, outputs, unusedOutputs, connFrom, fromAmount, fillInputs);
 
     if (!fillInputs)
         return;
@@ -1463,7 +1463,7 @@ void App::selectUtxos(const std::string &addr, const std::vector<wallet::UtxoEnt
     uint64_t fullAmount = fromAmount + fee1 + fee2;
     if (utxoAmount < fullAmount) {
         std::vector<wallet::UtxoEntry> uo;
-        processUtxos(addr, unusedOutputs, uo, connFrom, fromAmount);
+        processUtxos(addr, unusedOutputs, uo, connFrom, fromAmount, false);
     }
 }
 
