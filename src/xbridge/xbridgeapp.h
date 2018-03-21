@@ -204,11 +204,11 @@ public:
      * @brief checkAmount - checks wallet balance
      * @param currency - currency name
      * @param amount - amount
-     * @param address - address to pull utxo's from
+     * @param address - optional address to pull utxo's from
      * @return xbridge::SUCCES, if  the session currency is open and
      * on account has sufficient funds for operations
      */
-    xbridge::Error checkAmount(const std::string &currency, const uint64_t &amount, const std::string &address);
+    xbridge::Error checkAmount(const std::string &currency, const uint64_t &amount, const std::string &address = "");
 public:
     // connectors
 

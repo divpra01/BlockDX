@@ -1374,7 +1374,7 @@ Error App::checkAcceptParams(const uint256 &id, TransactionDescrPtr &ptr, const 
         return xbridge::TRANSACTION_NOT_FOUND;
     }
 
-    return checkAmount(ptr->toCurrency, ptr->toAmount, fromAddress);
+    return checkAmount(ptr->toCurrency, ptr->toAmount, ""); // TODO enforce by address after improving addressbook
 }
 
 //******************************************************************************
@@ -1390,7 +1390,7 @@ Error App::checkCreateParams(const string &fromCurrency,
         WARN() << "invalid currency " << __FUNCTION__;
         return xbridge::INVALID_CURRENCY;
     }
-    return checkAmount(fromCurrency, fromAmount, fromAddress);
+    return checkAmount(fromCurrency, fromAmount, ""); // TODO enforce by address after improving addressbook
 }
 
 //******************************************************************************
