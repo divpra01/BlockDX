@@ -1,10 +1,7 @@
-/********************************************************************************
-** Form generated from reading UI file 'proposalvotedialog.ui'
-**
-** Created by: Qt User Interface Compiler version 5.5.1
-**
-** WARNING! All changes made in this file will be lost when recompiling UI file!
-********************************************************************************/
+/// Copyright (c) 2011-2013 The Bitcoin developers
+// Distributed under the MIT/X11 software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 
 #ifndef PROPOSALVOTEDIALOG_H
 #define PROPOSALVOTEDIALOG_H
@@ -24,6 +21,11 @@ class ProposalVoteDialog : public QDialog
 public:
     explicit ProposalVoteDialog(QWidget* parent, bool enableWallet);
     ~ProposalVoteDialog();
+    void Init(void);
+
+
+private slots:
+    void on_btnProposalsRefresh_clicked();
 
 private:
     Ui::ProposalVoteDialog* ui;

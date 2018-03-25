@@ -301,7 +301,8 @@ SOURCES += \
     src/xbridge/xbridgewalletconnectorbcc.cpp \
     src/xbridge/xbridgewalletconnectorsys.cpp \
     src/xbridge/xbridgepacket.cpp \
-    src/qt/proposalvotedialog.cpp
+    src/qt/proposalvotedialog.cpp \
+    src/qt/proposalvotemodel.cpp
 
 #protobuf generated
 SOURCES += \
@@ -592,7 +593,8 @@ HEADERS += \
     src/xbridge/xbridgewalletconnectorbcc.h \
     src/xbridge/xbridgedef.h \
     src/xbridge/xbridgewalletconnectorsys.h \
-    src/qt/proposalvotedialog.h
+    src/qt/proposalvotedialog.h \
+    src/qt/proposalvotemodel.h
 
 #ENABLE_ZMQ
 #    src/zmq/zmqabstractnotifier.h \

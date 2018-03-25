@@ -74,6 +74,7 @@ QT_MOC_CPP = \
   qt/moc_peertablemodel.cpp \
   qt/moc_paymentserver.cpp \
   qt/moc_proposalvotedialog.cpp \
+  qt/moc_proposalvotemodel.cpp \
   qt/moc_qvalidatedlineedit.cpp \
   qt/moc_qvaluecombobox.cpp \
   qt/moc_receivecoinsdialog.cpp \
@@ -155,6 +156,7 @@ BITCOIN_QT_H = \
   qt/peertablemodel.h \
   qt/platformstyle.h \
   qt/proposalvotedialog.h \
+  qt/proposalvotemodel.h \
   qt/qvalidatedlineedit.h \
   qt/qvaluecombobox.h \
   qt/receivecoinsdialog.h \
@@ -264,6 +266,7 @@ BITCOIN_QT_CPP = \
   qt/peertablemodel.cpp \
   qt/platformstyle.cpp \
   qt/proposalvotedialog.cpp \
+  qt/proposalvotemodel.cpp \
   qt/qvalidatedlineedit.cpp \
   qt/qvaluecombobox.cpp \
   qt/rpcconsole.cpp \
