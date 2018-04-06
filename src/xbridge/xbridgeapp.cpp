@@ -979,6 +979,7 @@ xbridge::Error App::sendXBridgeTransaction(const std::string & from,
     ptr->toAmount     = toAmount;
     ptr->usedCoins    = outputsForUse;
     ptr->blockHash    = blockHash;
+    ptr->role         = 'A';
 
     // m key
     connTo->newKeyPair(ptr->mPubKey, ptr->mPrivKey);
@@ -1173,9 +1174,10 @@ Error App::acceptXBridgeTransaction(const uint256     & id,
         }
     }
 
-    ptr->from = connFrom->toXAddr(from);
-    ptr->to   = connTo->toXAddr(to);
+    ptr->from      = connFrom->toXAddr(from);
+    ptr->to        = connTo->toXAddr(to);
     ptr->usedCoins = outputsForUse;
+    ptr->role      = 'B';
 
     // m key
     connTo->newKeyPair(ptr->mPubKey, ptr->mPrivKey);
