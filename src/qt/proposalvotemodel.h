@@ -30,7 +30,32 @@ protected:
      std::vector<std::vector<float> > Columns;
 
 public:
-    QString propData[1000];
+     typedef struct propDataTypeTag {
+         QString Name;
+         QString URL;
+         QString Hash;
+         QString FeeHash;
+         int64_t BlockStart;
+         int64_t BlockEnd;
+         int64_t TotalPaymentCount;
+         int64_t RemainingPaymentCount;
+         QString PaymentAddress;
+         double Ratio;
+         int64_t Yeas;
+         int64_t Nays;
+         int64_t Abstains;
+         float TotalPayment;
+         float MonthlyPayment;
+         float Alloted;
+         float TotalBudgetAlloted;
+         bool IsEstablished;
+         bool IsValid;
+         QString IsValidReason;
+         bool fValid;
+     }propDataType;
+
+     propDataType propsData[200];
+
 };
 
 #endif // PROPOSALVOTEMODEL_H

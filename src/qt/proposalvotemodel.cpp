@@ -30,6 +30,7 @@ ProposalVoteModel::ProposalVoteModel(QObject *parent):QAbstractTableModel(parent
       //timer->setInterval(1000);
       //connect(timer, SIGNAL(timeout()) , this, SLOT(timerHit()));
       //timer->start();
+      //propDataType propsData[1000];
 }
 
 
@@ -55,7 +56,7 @@ int ProposalVoteModel::rowCount(const QModelIndex & /*parent*/) const
 
 int ProposalVoteModel::columnCount(const QModelIndex & /*parent*/) const
 {
-    return 4;
+    return 7;
 }
 
 
@@ -70,11 +71,38 @@ QVariant ProposalVoteModel::data(const QModelIndex &index, int role) const
         //            .arg(index.row() + 1)
         //            .arg(index.column() +1);
 
-        if (col == 0)
-        {
-            return propData[row];
-        //    return QTime::currentTime().toString();
+        switch (col) {
+            case 0:
+            {
+                return propsData[row].Name;
+            }
+            case 1:
+            {
+                return propsData[row].URL;
+            }
+            case 2:
+            {
+                return propsData[row].Hash;
+            }
+            case 3:
+            {
+                return propsData[row].FeeHash;
+            }
+
+            case 4:
+            {
+                return QVariant((int)propsData[row].Yeas).toString(); //QString::number(propsData[row].Yeas);
+            }
+            case 5:
+            {
+                return QVariant((int)propsData[row].Nays).toString(); //QString::number(propsData[row].Nays);
+            }
+            case 6:
+            {
+                return QVariant((int)propsData[row].Abstains).toString(); //QString::number(propsData[row].Nays);
+            }
         }
+
     }
     return QVariant();
 }
@@ -93,11 +121,17 @@ QVariant ProposalVoteModel::headerData(int section, Qt::Orientation orientation,
                 ss << "Name";
                 return QString(ss.str().c_str());
             case 1:
-                return QString("Title");
+            return QString("URL");
             case 2:
-                return QString("Owner");
+                return QString("Hash");
             case 3:
-                return QString("Details");
+                return QString("FeeHash");
+            case 4:
+                return QString("Yeas");
+            case 5:
+                return QString("Nays");
+            case 6:
+                return QString("Abstains");
         }
 
       }
