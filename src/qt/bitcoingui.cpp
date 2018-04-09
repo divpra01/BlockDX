@@ -447,7 +447,7 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     openBlockExplorerAction = new QAction(QIcon(":/icons/explorer"), tr("&Blockchain explorer"), this);
     openBlockExplorerAction->setStatusTip(tr("Block explorer window"));
 
-    openProposalVotingAction = new QAction(QIcon(":/icons/options"), tr("&Proposal Voting"), this);
+    openProposalVotingAction = new QAction(QIcon(":/icons/proposalvoting"), tr("&Proposal Voting"), this);
     openProposalVotingAction->setStatusTip(tr("Open the Proposal Voting window"));
 
     showHelpMessageAction = new QAction(QApplication::style()->standardIcon(QStyle::SP_MessageBoxInformation), tr("&Command-line options"), this);

@@ -56,7 +56,7 @@ int ProposalVoteModel::rowCount(const QModelIndex & /*parent*/) const
 
 int ProposalVoteModel::columnCount(const QModelIndex & /*parent*/) const
 {
-    return 7;
+    return 20;
 }
 
 
@@ -88,19 +88,72 @@ QVariant ProposalVoteModel::data(const QModelIndex &index, int role) const
             {
                 return propsData[row].FeeHash;
             }
-
             case 4:
             {
-                return QVariant((int)propsData[row].Yeas).toString(); //QString::number(propsData[row].Yeas);
+                return QVariant((int)propsData[row].BlockStart).toString();
             }
             case 5:
             {
-                return QVariant((int)propsData[row].Nays).toString(); //QString::number(propsData[row].Nays);
+                return QVariant((int)propsData[row].BlockEnd).toString();
             }
             case 6:
             {
-                return QVariant((int)propsData[row].Abstains).toString(); //QString::number(propsData[row].Nays);
+                return QVariant((int)propsData[row].TotalPaymentCount).toString();
             }
+
+            case 7:
+            {
+                return QVariant((int)propsData[row].RemainingPaymentCount).toString();
+            }
+            case 8:
+            {
+                return propsData[row].PaymentAddress;
+            }
+            case 9:
+            {
+                return QVariant((double)propsData[row].Ratio).toString();
+            }
+            case 10:
+            {
+                return QVariant((int)propsData[row].Yeas).toString(); //QString::number(propsData[row].Yeas);
+            }
+            case 11:
+            {
+                return QVariant((int)propsData[row].Nays).toString(); //QString::number(propsData[row].Abstains);
+            }
+            case 12:
+            {
+                return QVariant((int)propsData[row].Abstains).toString(); //QString::number(propsData[row].Abstains);
+            }
+            case 13:
+            {
+                return QVariant((float)propsData[row].TotalPayment).toString();
+            }
+            case 14:
+            {
+                return QVariant((float)propsData[row].MonthlyPayment).toString();
+            }
+            case 15:
+            {
+                return QVariant((float)propsData[row].Alloted).toString();
+            }
+            case 16:
+            {
+                return QVariant((bool)propsData[row].IsEstablished).toString();
+            }
+            case 17:
+            {
+                return QVariant((bool)propsData[row].IsValid).toString();
+            }
+            case 18:
+            {
+                return propsData[row].IsValidReason;
+            }
+            case 19:
+            {
+                return QVariant((bool)propsData[row].fValid).toString();
+            }
+
         }
 
     }
@@ -121,25 +174,53 @@ QVariant ProposalVoteModel::headerData(int section, Qt::Orientation orientation,
                 ss << "Name";
                 return QString(ss.str().c_str());
             case 1:
-            return QString("URL");
+                return QString("URL");
             case 2:
                 return QString("Hash");
             case 3:
                 return QString("FeeHash");
             case 4:
-                return QString("Yeas");
+                return QString("BlockStart");
             case 5:
-                return QString("Nays");
+                return QString("BlockEnd");
             case 6:
+                return QString("TotalPaymentCount");
+            case 7:
+                return QString("RemainingPaymentCount");
+            case 8:
+                return QString("PaymentAddress");
+            case 9:
+                return QString("Ratio");
+            case 10:
+                return QString("Yeas");
+            case 11:
+                return QString("Nays");
+            case 12:
                 return QString("Abstains");
+            case 13:
+                return QString("TotalPayment");
+            case 14:
+                return QString("MonthlyPayment");
+            case 15:
+                return QString("Alloted");
+            case 16:
+                return QString("IsEstablished");
+            case 17:
+                return QString("IsValid");
+            case 18:
+                return QString("IsValidReason");
+            case 19:
+                return QString("fValid");
+
         }
 
       }
-    else if(orientation == Qt::Vertical)
-      {
-      ss << "V_" << section;
-      return QString(ss.str().c_str());
-      }
+
+        else if(orientation == Qt::Vertical)
+        {
+            ss << "V_" << section;
+            return QString(ss.str().c_str());
+        }
 
     }
 

@@ -27,6 +27,12 @@ public:
 private slots:
     void on_btnProposalsRefresh_clicked();
 
+    void on_btnVoteYesForAll_clicked();
+
+    void on_btnVoteNoForAll_clicked();
+
+    void on_btnVoteAbstainForAll_clicked();
+
 private:
     Ui::ProposalVoteDialog* ui;
 };

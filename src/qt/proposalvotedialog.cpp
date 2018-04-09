@@ -111,11 +111,11 @@ void ProposalVoteDialog::Init(void)
             else if (propEntry.name_ == "Abstains")
                 propsModel->propsData[index].Abstains = propEntry.value_.get_int64();
             else if (propEntry.name_ == "TotalPayment")
-                propsModel->propsData[index].TotalPayment = propEntry.value_.get_int64();
+                propsModel->propsData[index].TotalPayment = propEntry.value_.get_real();
             else if (propEntry.name_ == "MonthlyPayment")
-                propsModel->propsData[index].MonthlyPayment = propEntry.value_.get_int64();
+                propsModel->propsData[index].MonthlyPayment = propEntry.value_.get_real();
             else if (propEntry.name_ == "Alloted")
-                propsModel->propsData[index].Alloted = propEntry.value_.get_int64();
+                propsModel->propsData[index].Alloted = propEntry.value_.get_real();
             else if (propEntry.name_ == "IsEstablished")
                 propsModel->propsData[index].IsEstablished = propEntry.value_.get_bool();
             //else if (propEntry.name_ == "TotalBudgetAlloted")
@@ -145,7 +145,26 @@ void ProposalVoteDialog::Init(void)
     ui->propsView->show();
 }
 
+
 void ProposalVoteDialog::on_btnProposalsRefresh_clicked()
 {
     Init();
+}
+
+
+void ProposalVoteDialog::on_btnVoteYesForAll_clicked()
+{
+    json_spirit::Value retVal = mnbudget({"vote","hash","yes"}, false);
+}
+
+
+void ProposalVoteDialog::on_btnVoteNoForAll_clicked()
+{
+    json_spirit::Value retVal = mnbudget({"vote","hash","no"}, false);
+}
+
+
+void ProposalVoteDialog::on_btnVoteAbstainForAll_clicked()
+{
+    json_spirit::Value retVal = mnbudget({"vote","hash",""}, false);
 }
