@@ -34,7 +34,7 @@ void ProposalVoteDialog::Init(void)
     json_spirit::Value proposals = mnbudget({"show"}, false);
     //json_spirit::Pair proposalsPairs = proposals.get_obj[0];
 
-    ProposalVoteModel *propsModel = new ProposalVoteModel(0);
+    propsModel = new ProposalVoteModel(0);
 
     // const Object& addr_array = value.get_obj();
     //vector<Value> proposalsJsonObj = value2.get_array();
@@ -154,17 +154,43 @@ void ProposalVoteDialog::on_btnProposalsRefresh_clicked()
 
 void ProposalVoteDialog::on_btnVoteYesForAll_clicked()
 {
-    json_spirit::Value retVal = mnbudget({"vote","hash","yes"}, false);
+    Array voteParams;
+
+    voteParams.push_back("vote");
+    voteParams.push_back(propsModel->currentSelectionHash.toStdString().c_str());
+    voteParams.push_back("yes");
+
+    json_spirit::Value retVal = mnbudget(voteParams, false);
+
+    propsModel->propsData[47].Hash = propsModel->currentSelectionHash;
 }
 
 
 void ProposalVoteDialog::on_btnVoteNoForAll_clicked()
 {
-    json_spirit::Value retVal = mnbudget({"vote","hash","no"}, false);
+    const Array voteParams;
+
+    voteParams.push_back("vote");
+    voteParams.push_back(propsModel->currentSelectionHash.toStdString().c_str());
+    voteParams.push_back("no");
+
+    json_spirit::Value retVal = mnbudget(voteParams, false);
 }
 
 
 void ProposalVoteDialog::on_btnVoteAbstainForAll_clicked()
 {
-    json_spirit::Value retVal = mnbudget({"vote","hash",""}, false);
+    Array voteParams;
+
+    voteParams.push_back("vote");
+    voteParams.push_back(propsModel->currentSelectionHash.toStdString().c_str());
+    voteParams.push_back("");
+
+    json_spirit::Value retVal = mnbudget(voteParams, false);
+}
+
+void ProposalVoteDialog::on_propsView_clicked(const QModelIndex &index)
+{
+    int row = index.row();
+    propsModel->currentSelectionHash = propsModel->propsData[row].Hash;
 }

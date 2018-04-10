@@ -6,6 +6,7 @@
 #ifndef PROPOSALVOTEDIALOG_H
 #define PROPOSALVOTEDIALOG_H
 #include <QDialog>
+#include "proposalvotemodel.h"
 
 
 namespace Ui {
@@ -33,8 +34,11 @@ private slots:
 
     void on_btnVoteAbstainForAll_clicked();
 
+    void on_propsView_clicked(const QModelIndex &index);
+
 private:
     Ui::ProposalVoteDialog* ui;
+    ProposalVoteModel *propsModel;
 };
 
 

@@ -56,6 +56,8 @@ public:
 
      propDataType propsData[200];
 
+     QString currentSelectionHash;
+
 };
 
 #endif // PROPOSALVOTEMODEL_H
