@@ -8,35 +8,8 @@
 
 ProposalVoteModel::ProposalVoteModel(QObject *parent):QAbstractTableModel(parent)
 {
-    std::vector<float> column1;
-      column1.push_back(10);
-      column1.push_back(20);
-      column1.push_back(30);
-      column1.push_back(40);
-
-      Columns.push_back(column1);
-
-      std::vector<float> column2;
-      column2.push_back(50);
-      column2.push_back(60);
-      column2.push_back(70);
-      column2.push_back(80);
-
-      Columns.push_back(column2);
-
-      //QString propData[] = new QString[1000];
-
-      //QTimer *timer = new QTimer(this);
-      //timer->setInterval(1000);
-      //connect(timer, SIGNAL(timeout()) , this, SLOT(timerHit()));
-      //timer->start();
-      //propDataType propsData[1000];
+    numProposals = 0;
 }
-
-
-//ProposalVoteModel::~ProposalVoteModel()
-//{
-//}
 
 
 void ProposalVoteModel::timerHit()
@@ -50,7 +23,7 @@ void ProposalVoteModel::timerHit()
 
 int ProposalVoteModel::rowCount(const QModelIndex & /*parent*/) const
 {
-   return 48;
+   return numProposals;
 }
 
 
@@ -65,12 +38,10 @@ QVariant ProposalVoteModel::data(const QModelIndex &index, int role) const
     int row = index.row();
     int col = index.column();
 
+    if (numProposals == 0) return QVariant();
+
     if (role == Qt::DisplayRole)
     {
-        //return QString("Row%1, Column%2")
-        //            .arg(index.row() + 1)
-        //            .arg(index.column() +1);
-
         switch (col) {
             case 0:
             {
