@@ -117,7 +117,7 @@ void ProposalVoteDialog::on_btnProposalsRefresh_clicked()
 
 void ProposalVoteDialog::on_btnVoteYesForAll_clicked()
 {
-    Array voteParams;
+    const Array voteParams;
 
     voteParams.push_back("vote");
     voteParams.push_back(propsModel->currentSelectionHash.toStdString().c_str());
@@ -125,7 +125,10 @@ void ProposalVoteDialog::on_btnVoteYesForAll_clicked()
 
     json_spirit::Value retVal = mnbudget(voteParams, false);
 
-    propsModel->propsData[47].Hash = propsModel->currentSelectionHash;
+    Value_type vtype;
+
+    propsModel->propsData[1].Name = QString::fromStdString(json_spirit::write_string(retVal));
+    propsModel->propsData[1].Hash = propsModel->currentSelectionHash;
 }
 
 
@@ -143,7 +146,7 @@ void ProposalVoteDialog::on_btnVoteNoForAll_clicked()
 
 void ProposalVoteDialog::on_btnVoteAbstainForAll_clicked()
 {
-    Array voteParams;
+    const Array voteParams;
 
     voteParams.push_back("vote");
     voteParams.push_back(propsModel->currentSelectionHash.toStdString().c_str());

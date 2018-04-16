@@ -23,7 +23,7 @@ void ProposalVoteModel::timerHit()
 
 int ProposalVoteModel::rowCount(const QModelIndex & /*parent*/) const
 {
-   return numProposals;
+   return 2;
 }
 
 
