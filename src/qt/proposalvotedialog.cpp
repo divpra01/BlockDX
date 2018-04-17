@@ -20,6 +20,9 @@ ProposalVoteDialog::ProposalVoteDialog(QWidget* parent, bool enableWallet) : QDi
     ui->btnVoteYesForAll->setEnabled(false);
     ui->btnVoteNoForAll->setEnabled(false);
     ui->btnVoteAbstainForAll->setEnabled(false);
+    ui->btnVoteYesForAll->setStyleSheet(QString::fromUtf8("QPushButton:disabled { color: gray }"));
+    ui->btnVoteNoForAll->setStyleSheet(QString::fromUtf8("QPushButton:disabled { color: gray }"));
+    ui->btnVoteAbstainForAll->setStyleSheet(QString::fromUtf8("QPushButton:disabled { color: gray }"));
     ui->detailsSplitter->setSizes(QList<int>({INT_MAX, INT_MAX}));
     propsModel = new ProposalVoteModel(0);
     //ui->propsView->setModel(propsModel);
@@ -106,6 +109,7 @@ void ProposalVoteDialog::Init(void)
  //       strPrint = QString::fromStdString(proposals.get_str());
  //   else
  //       strPrint = name; //write_string(result, true);
+    ui->statusLabel->setText("Current Status: Budget Proposals Loaded");
 }
 
 
@@ -127,8 +131,9 @@ void ProposalVoteDialog::on_btnVoteYesForAll_clicked()
 
     Value_type vtype;
 
-    propsModel->propsData[1].Name = QString::fromStdString(json_spirit::write_string(retVal));
-    propsModel->propsData[1].Hash = propsModel->currentSelectionHash;
+    ui->statusLabel->setText("Current Status: " + QString::fromStdString(json_spirit::write_string(retVal)));
+    //propsModel->propsData[1].Name = QString::fromStdString(json_spirit::write_string(retVal));
+    //propsModel->propsData[1].Hash = propsModel->currentSelectionHash;
 }
 
 
@@ -141,6 +146,7 @@ void ProposalVoteDialog::on_btnVoteNoForAll_clicked()
     voteParams.push_back("no");
 
     json_spirit::Value retVal = mnbudget(voteParams, false);
+    ui->statusLabel->setText("Current Status" + QString::fromStdString(json_spirit::write_string(retVal)));
 }
 
 
@@ -153,6 +159,7 @@ void ProposalVoteDialog::on_btnVoteAbstainForAll_clicked()
     voteParams.push_back("");
 
     json_spirit::Value retVal = mnbudget(voteParams, false);
+    ui->statusLabel->setText("Current Status" + QString::fromStdString(json_spirit::write_string(retVal)));
 }
 
 void ProposalVoteDialog::on_propsView_clicked(const QModelIndex &index)
