@@ -170,3 +170,8 @@ void ProposalVoteDialog::on_propsView_clicked(const QModelIndex &index)
     ui->btnVoteNoForAll->setEnabled(true);
     ui->btnVoteAbstainForAll->setEnabled(true);
 }
+
+void ProposalVoteDialog::on_buttonBox_clicked(QAbstractButton *button)
+{
+    QDialog::close();
+}

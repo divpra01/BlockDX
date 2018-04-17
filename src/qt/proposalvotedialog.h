@@ -6,6 +6,7 @@
 #ifndef PROPOSALVOTEDIALOG_H
 #define PROPOSALVOTEDIALOG_H
 #include <QDialog>
+#include <QAbstractButton>
 #include "proposalvotemodel.h"
 
 
@@ -35,6 +36,8 @@ private slots:
     void on_btnVoteAbstainForAll_clicked();
 
     void on_propsView_clicked(const QModelIndex &index);
+
+    void on_buttonBox_clicked(QAbstractButton *button);
 
 private:
     Ui::ProposalVoteDialog* ui;
