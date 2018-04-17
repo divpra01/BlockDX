@@ -305,9 +305,9 @@ void App::Impl::onSend(const std::vector<unsigned char>& id, const std::vector<u
         BOOST_FOREACH (PAIRTYPE(int, CServicenode) & s, vServicenodeRanks) {
             if (s.second.addr.ToString() == pnode->addr.ToString()) {
                 // This node is a service node
-                std::cout << "sn " << s.second.addr.ToString() << " " << s.second.GetConnectedWalletsStr() << std::endl;
+                std::cout << "sn " << s.second.addr.ToString() << " " << s.second.lastPing.GetConnectedWalletsStr() << std::endl;
                 std::vector<string> wallets;
-                std::string wstr = s.second.GetConnectedWalletsStr();
+                std::string wstr = s.second.lastPing.GetConnectedWalletsStr();
                 boost::split(wallets, wstr, boost::is_any_of(","));
                 if (std::find(wallets.begin(), wallets.end(), wallet) != wallets.end()) {
                     pnode->PushMessage("xrouter", msg);
