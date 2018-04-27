@@ -17,6 +17,7 @@
 #include "openuridialog.h"
 #include "optionsdialog.h"
 #include "optionsmodel.h"
+#include "proposalcreationdialog.h"
 #include "proposalvotedialog.h"
 #include "rpcconsole.h"
 #include "utilitydialog.h"
@@ -447,6 +448,8 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     openBlockExplorerAction = new QAction(QIcon(":/icons/explorer"), tr("&Blockchain explorer"), this);
     openBlockExplorerAction->setStatusTip(tr("Block explorer window"));
 
+    openProposalCreationAction = new QAction(QIcon(":/icons/proposalcreation"), tr("&Proposal Creation"), this);
+    openProposalCreationAction->setStatusTip(tr("Open the Proposal Creation window"));
     openProposalVotingAction = new QAction(QIcon(":/icons/proposalvoting"), tr("&Proposal Voting"), this);
     openProposalVotingAction->setStatusTip(tr("Open the Proposal Voting window"));
 
@@ -460,6 +463,7 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     connect(optionsAction, SIGNAL(triggered()), this, SLOT(optionsClicked()));
     connect(toggleHideAction, SIGNAL(triggered()), this, SLOT(toggleHidden()));
     connect(showHelpMessageAction, SIGNAL(triggered()), this, SLOT(showHelpMessageClicked()));
+    connect(openProposalCreationAction, SIGNAL(triggered()), this, SLOT(proposalCreationClicked()));
     connect(openProposalVotingAction, SIGNAL(triggered()), this, SLOT(proposalVoteClicked()));
 #ifdef ENABLE_WALLET
     if (walletFrame) {
@@ -527,7 +531,9 @@ void BitcoinGUI::createMenuBar()
         tools->addAction(openMNConfEditorAction);
         tools->addAction(showBackupsAction);
         tools->addAction(openBlockExplorerAction);
-        tools->addAction(openProposalVotingAction);
+        QMenu* proposals = tools->addMenu(QIcon(":/icons/proposals"), tr("&Proposals"));
+        proposals->addAction(openProposalCreationAction);
+        proposals->addAction(openProposalVotingAction);
     }
 
     QMenu* help = appMenuBar->addMenu(tr("&Help"));
@@ -737,6 +743,18 @@ void BitcoinGUI::optionsClicked()
     dlg.setModel(clientModel->getOptionsModel());
     dlg.exec();
 }
+
+
+void BitcoinGUI::proposalCreationClicked()
+{
+    // if (!clientModel || !clientModel->getOptionsModel())
+    //     return;
+
+    ProposalCreationDialog* proposalCreationDialog = new ProposalCreationDialog(this, enableWallet);
+    //dlg.setModel(clientModel->getOptionsModel());
+    proposalCreationDialog->show();
+}
+
 
 void BitcoinGUI::proposalVoteClicked()
 {

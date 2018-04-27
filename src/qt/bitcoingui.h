@@ -121,6 +121,7 @@ private:
     QAction* showBackupsAction;
     QAction* openAction;
     QAction* openBlockExplorerAction;
+    QAction* openProposalCreationAction;
     QAction* openProposalVotingAction;
     QAction* showHelpMessageAction;
     QAction* multiSendAction;
@@ -226,6 +227,7 @@ private slots:
 #endif // ENABLE_WALLET
     /** Show configuration dialog */
     void optionsClicked();
+    void proposalCreationClicked();
     void proposalVoteClicked();
     /** Show about dialog */
     void aboutClicked();

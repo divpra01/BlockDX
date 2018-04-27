@@ -8,7 +8,6 @@
 
 #include "../rpcserver.h"
 #include "proposalvotemodel.h"
-//#include "stdlib.h"
 
 using namespace json_spirit;
 using namespace std;
@@ -17,6 +16,8 @@ using namespace std;
 ProposalVoteDialog::ProposalVoteDialog(QWidget* parent, bool enableWallet) : QDialog(parent),  ui(new Ui::ProposalVoteDialog)
 {
     ui->setupUi(this);
+    ui->btnProposalsColumns->setVisible(false);
+    ui->btnProposalsSaveToCSV->setVisible(false);
     ui->btnVoteYesForAll->setEnabled(false);
     ui->btnVoteNoForAll->setEnabled(false);
     ui->btnVoteAbstainForAll->setEnabled(false);
@@ -25,8 +26,7 @@ ProposalVoteDialog::ProposalVoteDialog(QWidget* parent, bool enableWallet) : QDi
     ui->btnVoteAbstainForAll->setStyleSheet(QString::fromUtf8("QPushButton:disabled { color: gray }"));
     ui->detailsSplitter->setSizes(QList<int>({INT_MAX, INT_MAX}));
     propsModel = new ProposalVoteModel(0);
-    //ui->propsView->setModel(propsModel);
-    //ui->propsView->show();
+
     Init();
 }
 
@@ -39,17 +39,12 @@ ProposalVoteDialog::~ProposalVoteDialog()
 
 void ProposalVoteDialog::Init(void)
 {
-    //QString strPrint;
     json_spirit::Value proposals = mnbudget({"show"}, false);
     int index = 0;
-    Object jsonObject = proposals.get_obj(); //rowPair.value_.get_obj();
-    const QString name;
-    const QString value;
+    Object jsonObject = proposals.get_obj();
 
     for (auto entry : jsonObject) {
-        //const string& namestr = entry.name_;
         Object proposal = entry.value_.get_obj();
-
         for (const Pair& propEntry : proposal) {
             if (propEntry.name_ == "Name")
                 propsModel->propsData[index].Name = QString::fromStdString(propEntry.value_.get_str());
@@ -102,13 +97,6 @@ void ProposalVoteDialog::Init(void)
     ui->propsView->setModel(propsModel);
     ui->propsView->show();
 
-    // Format result reply
- //   if (proposals.type() == json_spirit::null_type)
- //       strPrint = "Null Object";
- //   else if (proposals.type() == json_spirit::str_type)
- //       strPrint = QString::fromStdString(proposals.get_str());
- //   else
- //       strPrint = name; //write_string(result, true);
     ui->statusLabel->setText("Current Status: Budget Proposals Loaded");
 }
 
@@ -129,11 +117,7 @@ void ProposalVoteDialog::on_btnVoteYesForAll_clicked()
 
     json_spirit::Value retVal = mnbudget(voteParams, false);
 
-    Value_type vtype;
-
     ui->statusLabel->setText("Current Status: " + QString::fromStdString(json_spirit::write_string(retVal)));
-    //propsModel->propsData[1].Name = QString::fromStdString(json_spirit::write_string(retVal));
-    //propsModel->propsData[1].Hash = propsModel->currentSelectionHash;
 }
 
 
@@ -146,7 +130,7 @@ void ProposalVoteDialog::on_btnVoteNoForAll_clicked()
     voteParams.push_back("no");
 
     json_spirit::Value retVal = mnbudget(voteParams, false);
-    ui->statusLabel->setText("Current Status" + QString::fromStdString(json_spirit::write_string(retVal)));
+    ui->statusLabel->setText("Current Status: " + QString::fromStdString(json_spirit::write_string(retVal)));
 }
 
 
@@ -159,8 +143,9 @@ void ProposalVoteDialog::on_btnVoteAbstainForAll_clicked()
     voteParams.push_back("");
 
     json_spirit::Value retVal = mnbudget(voteParams, false);
-    ui->statusLabel->setText("Current Status" + QString::fromStdString(json_spirit::write_string(retVal)));
+    ui->statusLabel->setText("Current Status: " + QString::fromStdString(json_spirit::write_string(retVal)));
 }
+
 
 void ProposalVoteDialog::on_propsView_clicked(const QModelIndex &index)
 {
@@ -170,6 +155,7 @@ void ProposalVoteDialog::on_propsView_clicked(const QModelIndex &index)
     ui->btnVoteNoForAll->setEnabled(true);
     ui->btnVoteAbstainForAll->setEnabled(true);
 }
+
 
 void ProposalVoteDialog::on_buttonBox_clicked(QAbstractButton *button)
 {
