@@ -126,7 +126,7 @@ void ProposalCreationDialog::on_preparepushButton_clicked()
 
         timerId = startTimer(1000);
         n->setHMS(0, 8, 0);
-        ui->statuslabel->setText("Proposal Submission ready in: " + n->toString());
+        ui->statuslabel->setText("Current Status: Proposal Submission ready in - " + n->toString());
     }
 }
 
@@ -157,11 +157,12 @@ void ProposalCreationDialog::timerEvent(QTimerEvent *event)
     if (n->minute() == 0 && n->second() == 0)
     {
        ui->submitpushButton->setEnabled(true);
+       ui->statuslabel->setText("Current Status: Proposal Submission READY");
     }
     else
     {
         *n = n->addSecs(-1);
-        ui->statuslabel->setText("Proposal Submission ready in: " + n->toString());
+        ui->statuslabel->setText("Current Status: Proposal Submission ready in - " + n->toString());
     }
 }
 

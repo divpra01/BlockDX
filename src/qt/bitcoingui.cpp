@@ -761,9 +761,9 @@ void BitcoinGUI::proposalVoteClicked()
     // if (!clientModel || !clientModel->getOptionsModel())
     //     return;
 
-    ProposalVoteDialog dlg(this, enableWallet);
+    ProposalVoteDialog* proposalVoteDialog = new ProposalVoteDialog(this, enableWallet);
     //dlg.setModel(clientModel->getOptionsModel());
-    dlg.exec();
+    proposalVoteDialog->show();
 }
 
 
