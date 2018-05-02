@@ -465,6 +465,7 @@ void BitcoinGUI::createActions(const NetworkStyle* networkStyle)
     connect(showHelpMessageAction, SIGNAL(triggered()), this, SLOT(showHelpMessageClicked()));
     connect(openProposalCreationAction, SIGNAL(triggered()), this, SLOT(proposalCreationClicked()));
     connect(openProposalVotingAction, SIGNAL(triggered()), this, SLOT(proposalVoteClicked()));
+    //connect(proposalVoteDialog, SIGNAL(destroyed()), this, SLOT(proposalVoteDialogDestroyed()));
 #ifdef ENABLE_WALLET
     if (walletFrame) {
         connect(encryptWalletAction, SIGNAL(triggered(bool)), walletFrame, SLOT(encryptWallet(bool)));
@@ -750,20 +751,31 @@ void BitcoinGUI::proposalCreationClicked()
     // if (!clientModel || !clientModel->getOptionsModel())
     //     return;
 
-    ProposalCreationDialog* proposalCreationDialog = new ProposalCreationDialog(this, enableWallet);
-    //dlg.setModel(clientModel->getOptionsModel());
-    proposalCreationDialog->show();
+    if (!proposalCreationActive)
+    {
+        if (!proposalCreationDialog)
+            proposalCreationDialog = new ProposalCreationDialog(this, enableWallet);
+        //dlg.setModel(clientModel->getOptionsModel());
+        proposalCreationActive = true;
+        proposalCreationDialog->show();
+    }
 }
 
 
 void BitcoinGUI::proposalVoteClicked()
 {
+    //static QWeakPointer<ProposalVoteDialog> dlg_;
     // if (!clientModel || !clientModel->getOptionsModel())
     //     return;
 
-    ProposalVoteDialog* proposalVoteDialog = new ProposalVoteDialog(this, enableWallet);
-    //dlg.setModel(clientModel->getOptionsModel());
-    proposalVoteDialog->show();
+    if (!proposalVoteActive)
+    {
+        if (!proposalVoteDialog)
+            proposalVoteDialog = new ProposalVoteDialog(this, enableWallet);
+        //dlg.setModel(clientModel->getOptionsModel());
+        proposalVoteActive = true;
+        proposalVoteDialog->show();
+    }
 }
 
 

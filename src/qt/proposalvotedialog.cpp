@@ -7,6 +7,7 @@
 #include "proposalvotedialog.h"
 
 #include "../rpcserver.h"
+#include "bitcoingui.h"
 #include "proposalvotemodel.h"
 
 using namespace json_spirit;
@@ -16,6 +17,7 @@ using namespace std;
 ProposalVoteDialog::ProposalVoteDialog(QWidget* parent, bool enableWallet) : QDialog(parent),  ui(new Ui::ProposalVoteDialog)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
     ui->btnProposalsColumns->setVisible(false);
     ui->btnProposalsSaveToCSV->setVisible(false);
     ui->btnVoteYesForAll->setEnabled(false);
@@ -26,6 +28,7 @@ ProposalVoteDialog::ProposalVoteDialog(QWidget* parent, bool enableWallet) : QDi
     ui->btnVoteAbstainForAll->setStyleSheet(QString::fromUtf8("QPushButton:disabled { color: gray }"));
     ui->detailsSplitter->setSizes(QList<int>({INT_MAX, INT_MAX}));
     propsModel = new ProposalVoteModel(0);
+    ui->propsView->setModel(propsModel);
 
     Init();
 }
@@ -94,7 +97,8 @@ void ProposalVoteDialog::Init(void)
     }
 
     propsModel->numProposals = index;
-    ui->propsView->setModel(propsModel);
+    QModelIndex idx;
+    propsModel->updateData();
     ui->propsView->show();
 
     ui->statusLabel->setText("Current Status: Budget Proposals Loaded");
@@ -159,5 +163,14 @@ void ProposalVoteDialog::on_propsView_clicked(const QModelIndex &index)
 
 void ProposalVoteDialog::on_buttonBox_clicked(QAbstractButton *button)
 {
+    BitcoinGUI* mainWnd = (BitcoinGUI*)(this->parentWidget());
+    mainWnd->proposalVoteActive = false;
     QDialog::close();
+}
+
+
+void ProposalVoteDialog::on_ProposalVoteDialog_rejected()
+{
+    BitcoinGUI* mainWnd = (BitcoinGUI*)(this->parentWidget());
+    mainWnd->proposalVoteActive = false;
 }

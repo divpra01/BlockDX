@@ -14,6 +14,7 @@ using namespace std;
 
 ProposalCreationDialog::ProposalCreationDialog(QWidget *parent, bool enableWallet) : QDialog(parent), ui(new Ui::ProposalCreationDialog)
 {
+    setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
     ui->setupUi(this);
 
     ui->submitpushButton->setEnabled(false);
@@ -48,6 +49,8 @@ ProposalCreationDialog::~ProposalCreationDialog()
 {
     delete ui;
     delete n;
+    //BitcoinGUI* mainWnd = (BitcoinGUI*)(this->parentWidget());
+    //mainWnd->proposalCreationActive = false;
 }
 
 
@@ -167,3 +170,8 @@ void ProposalCreationDialog::timerEvent(QTimerEvent *event)
 }
 
 
+void ProposalCreationDialog::on_ProposalCreationDialog_rejected()
+{
+    BitcoinGUI* mainWnd = (BitcoinGUI*)(this->parentWidget());
+    mainWnd->proposalCreationActive = false;
+}

@@ -9,6 +9,7 @@
 #include <QAbstractButton>
 #include "proposalvotemodel.h"
 
+class BitcoinGUI;
 
 namespace Ui {
     class ProposalVoteDialog;
@@ -39,9 +40,12 @@ private slots:
 
     void on_buttonBox_clicked(QAbstractButton *button);
 
+    void on_ProposalVoteDialog_rejected();
+
 private:
     Ui::ProposalVoteDialog* ui;
     ProposalVoteModel *propsModel;
+    BitcoinGUI* parent;
 };
 
 

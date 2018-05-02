@@ -132,6 +132,20 @@ QVariant ProposalVoteModel::data(const QModelIndex &index, int role) const
 }
 
 
+bool ProposalVoteModel::updateData()
+{
+    // Update data...
+
+    QModelIndex topLeft = index(0, 0);
+    QModelIndex bottomRight = index(rowCount() - 1, columnCount() - 1);
+
+    emit dataChanged(topLeft, bottomRight);
+    emit layoutChanged();
+
+    return true;
+}
+
+
 QVariant ProposalVoteModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if(role == Qt::DisplayRole)

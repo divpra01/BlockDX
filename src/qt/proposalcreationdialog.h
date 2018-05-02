@@ -35,8 +35,9 @@ private slots:
 
     void on_feetxtextEdit_textChanged();
 
-    void on_submitpushButton_clicked();
+    void on_submitpushButton_clicked();    
 
+    void on_ProposalCreationDialog_rejected();
 
 private:
     Ui::ProposalCreationDialog *ui;
