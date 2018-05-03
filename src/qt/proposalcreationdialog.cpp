@@ -14,8 +14,11 @@ using namespace std;
 
 ProposalCreationDialog::ProposalCreationDialog(QWidget *parent, bool enableWallet) : QDialog(parent), ui(new Ui::ProposalCreationDialog)
 {
-    setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
     ui->setupUi(this);
+    Qt::WindowFlags flags = Qt::Window | Qt::WindowSystemMenuHint
+                                | Qt::WindowMinimizeButtonHint
+                                | Qt::WindowCloseButtonHint;
+    setWindowFlags(flags);
 
     ui->submitpushButton->setEnabled(false);
     ui->submitpushButton->setStyleSheet(QString::fromUtf8("QPushButton:disabled { color: gray }"));
@@ -49,13 +52,13 @@ ProposalCreationDialog::~ProposalCreationDialog()
 {
     delete ui;
     delete n;
-    //BitcoinGUI* mainWnd = (BitcoinGUI*)(this->parentWidget());
-    //mainWnd->proposalCreationActive = false;
 }
 
 
 void ProposalCreationDialog::on_closebuttonBox_clicked(QAbstractButton *button)
 {
+    BitcoinGUI* mainWnd = (BitcoinGUI*)(this->parentWidget());
+    mainWnd->proposalCreationActive = false;
     QDialog::close();
 }
 

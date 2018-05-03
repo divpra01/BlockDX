@@ -17,7 +17,10 @@ using namespace std;
 ProposalVoteDialog::ProposalVoteDialog(QWidget* parent, bool enableWallet) : QDialog(parent),  ui(new Ui::ProposalVoteDialog)
 {
     ui->setupUi(this);
-    setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
+    Qt::WindowFlags flags = Qt::Window | Qt::WindowSystemMenuHint
+                                | Qt::WindowMinimizeButtonHint
+                                | Qt::WindowCloseButtonHint;
+    setWindowFlags(flags);
     ui->btnProposalsColumns->setVisible(false);
     ui->btnProposalsSaveToCSV->setVisible(false);
     ui->btnVoteYesForAll->setEnabled(false);
